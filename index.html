@@ -128,21 +128,18 @@
         console.error("Score update error", e);
       }
     }
-    <script>
+<script>
   function vote(player) {
     const amount = prompt("How much EGLD do you want to send?");
     if (!amount || isNaN(amount)) return;
 
     const address = "erd1n0kqf488m6skjazhsmfnpakhvxgtav0jjgmck4j3a2qf7mhsf45q9gz55c";
-    const value = parseFloat(amount) * 1e18; // EGLD to wei
+    const value = parseFloat(amount) * 1e18;
     const data = player;
 
-    const link = `https://xportal.com/dapp/transaction?receiver=${address}&value=${value}&data=${data}`;
-    
-    // Deschide xPortal în mobil
+    const link = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${data}`;
     window.open(link, "_blank");
 
-    // Confetti + mesaj
     setTimeout(() => {
       confetti({
         particleCount: 200,
@@ -152,9 +149,7 @@
       alert(`✅ Thanks for voting ${player.toUpperCase()}!`);
     }, 600);
   }
-</script>
 
-    <script>
   function startCountdown(endDate) {
     const countdownEl = document.getElementById("countdown");
     function update() {
@@ -175,10 +170,7 @@
     const interval = setInterval(update, 1000);
   }
 
+  updateScores();
+  setInterval(updateScores, 10000);
+  startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
 </script>
-    updateScores();
-    setInterval(updateScores, 10000);
-    startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
-  </script>
-</body>
-</html>
