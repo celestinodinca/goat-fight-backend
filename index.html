@@ -35,6 +35,8 @@
       justify-content: space-around;
       flex-wrap: wrap;
       padding: 2rem;
+      position: relative;
+      z-index: 2;
     }
 
     .player-card {
@@ -92,26 +94,48 @@
       text-align: left;
     }
 
-    .share-btn {
-      margin-top: 1rem;
-      background-color: #1da1f2;
-      color: white;
-      font-size: 0.8rem;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 0 5px #1da1f2;
+    /* Stadium in background */
+    .stadium-bg {
+      position: absolute;
+      top: 120px;
+      left: 0;
+      width: 100%;
+      z-index: 0;
+      opacity: 0.08;
+      pointer-events: none;
     }
 
-    .share-btn:hover {
-      background-color: #0d8de0;
+    .stadium {
+      display: grid;
+      grid-template-columns: repeat(15, 20px);
+      gap: 4px;
+      justify-content: center;
+    }
+
+    .seat {
+      width: 20px;
+      height: 20px;
+      background: #00ffe0;
+      border: 1px solid #111;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .seat.taken {
+      background: #ff00ff;
+      color: white;
     }
   </style>
 </head>
 <body>
   <h1>🐐 GOAT FIGHT - MESSI VS RONALDO</h1>
   <div class="countdown" id="countdown"></div>
+
+  <div class="stadium-bg">
+    <div class="stadium" id="stadium"></div>
+  </div>
 
   <div class="container">
     <div class="player-card">
@@ -130,8 +154,6 @@
   <div class="leaderboard">
     <h2>🏅 Leaderboard</h2>
     <pre id="leaderboard">Loading...</pre>
-
-    <button class="share-btn" onclick="shareOnX()">Share on X (Twitter)</button>
   </div>
 
   <script>
@@ -174,12 +196,6 @@
       }, 600);
     }
 
-    function shareOnX() {
-      const tweet = encodeURIComponent("Vote now in the GOAT Fight – Messi vs Ronaldo ⚽🔥\nWho deserves to win?\n\n👉 https://goat-fight.vercel.app/");
-      const xUrl = `https://twitter.com/intent/tweet?text=${tweet}`;
-      window.open(xUrl, "_blank");
-    }
-
     function startCountdown(endDate) {
       const countdownEl = document.getElementById("countdown");
       function update() {
@@ -200,6 +216,23 @@
       const interval = setInterval(update, 1000);
     }
 
+    const stadium = document.getElementById("stadium");
+    const seats = Array.from({ length: 200 }, (_, i) => ({
+      id: i,
+      taken: Math.random() < 0.15
+    }));
+
+    function renderSeats() {
+      stadium.innerHTML = '';
+      seats.forEach(seat => {
+        const div = document.createElement("div");
+        div.className = "seat" + (seat.taken ? " taken" : "");
+        div.innerText = seat.taken ? "🎟️" : "";
+        stadium.appendChild(div);
+      });
+    }
+
+    renderSeats();
     updateScores();
     setInterval(updateScores, 10000);
     startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
