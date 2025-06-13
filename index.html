@@ -117,7 +117,6 @@
 
   <script>
     const API_URL = "https://orange-halibut-7vwx9qvqqxpc6r4-3000.app.github.dev/api/scores";
-
     async function updateScores() {
       try {
         const res = await fetch(API_URL);
@@ -129,7 +128,6 @@
         console.error("Score update error", e);
       }
     }
-
     <script>
   function vote(player) {
     const amount = prompt("How much EGLD do you want to send?");
@@ -181,8 +179,6 @@
   setInterval(updateScores, 10000);
   startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
 </script>
-
-
     updateScores();
     setInterval(updateScores, 10000);
     startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
