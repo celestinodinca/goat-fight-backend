@@ -137,7 +137,13 @@
     const value = parseFloat(amount) * 1e18;
     const data = player;
 
-    const link = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${data}`;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    const walletLink = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${data}`;
+    const xportalLink = `xportal://transaction?receiver=${address}&value=${value}&data=${data}`;
+
+    const link = isMobile ? xportalLink : walletLink;
+
     window.open(link, "_blank");
 
     setTimeout(() => {
@@ -168,6 +174,18 @@
     }
     update();
     const interval = setInterval(update, 1000);
+  }
+
+  async function updateScores() {
+    try {
+      const res = await fetch("https://orange-halibut-7vwx9qvqqxpc6r4-3000.app.github.dev/api/scores");
+      const data = await res.json();
+      document.getElementById("messi-score").innerText = data.messi + " EGLD";
+      document.getElementById("ronaldo-score").innerText = data.ronaldo + " EGLD";
+      document.getElementById("leaderboard").innerText = data.leaderboard || "No votes yet.";
+    } catch (e) {
+      console.error("Score update error", e);
+    }
   }
 
   updateScores();
