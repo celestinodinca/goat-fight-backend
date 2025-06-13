@@ -157,25 +157,32 @@
 </script>
 
 
-    function startCountdown(endDate) {
-      const countdownEl = document.getElementById("countdown");
-      function update() {
-        const now = new Date().getTime();
-        const distance = endDate - now;
-        if (distance <= 0) {
-          countdownEl.innerText = "⏱️ Voting Closed";
-          clearInterval(interval);
-          return;
-        }
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownEl.innerText = ⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s;
+    <script>
+  function startCountdown(endDate) {
+    const countdownEl = document.getElementById("countdown");
+    function update() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+      if (distance <= 0) {
+        countdownEl.innerText = "⏱️ Voting Closed";
+        clearInterval(interval);
+        return;
       }
-      update();
-      const interval = setInterval(update, 1000);
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerText = `⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
+    update();
+    const interval = setInterval(update, 1000);
+  }
+
+  updateScores();
+  setInterval(updateScores, 10000);
+  startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
+</script>
+
 
     updateScores();
     setInterval(updateScores, 10000);
