@@ -137,7 +137,8 @@
       const memo = player;
       const address = "erd1n0kqf488m6skjazhsmfnpakhvxgtav0jjgmck4j3a2qf7mhsf45q9gz55c";
       const value = parseFloat(amount) * 1e18;
-      const url = https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${memo};
+      const url = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${memo}`;
+
       window.open(url, "_blank");
 
       setTimeout(() => {
