@@ -91,11 +91,28 @@
       white-space: pre-wrap;
       text-align: left;
     }
+
+    .share-btn {
+      margin-top: 1rem;
+      background-color: #1da1f2;
+      color: white;
+      font-size: 0.8rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 5px #1da1f2;
+    }
+
+    .share-btn:hover {
+      background-color: #0d8de0;
+    }
   </style>
 </head>
 <body>
   <h1>🐐 GOAT FIGHT - MESSI VS RONALDO</h1>
   <div class="countdown" id="countdown"></div>
+
   <div class="container">
     <div class="player-card">
       <img src="https://i.ibb.co/ccLhgXjy/messi-pixel.png" alt="Pixel Messi">
@@ -113,6 +130,8 @@
   <div class="leaderboard">
     <h2>🏅 Leaderboard</h2>
     <pre id="leaderboard">Loading...</pre>
+
+    <button class="share-btn" onclick="shareOnX()">Share on X (Twitter)</button>
   </div>
 
   <script>
@@ -141,8 +160,8 @@
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const walletLink = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${data}`;
       const xportalLink = `xportal://transaction?receiver=${address}&value=${value}&data=${data}`;
-
       const link = isMobile ? xportalLink : walletLink;
+
       window.open(link, "_blank");
 
       setTimeout(() => {
@@ -153,6 +172,12 @@
         });
         alert(`✅ Thanks for voting ${player.toUpperCase()}!`);
       }, 600);
+    }
+
+    function shareOnX() {
+      const tweet = encodeURIComponent("Vote now in the GOAT Fight – Messi vs Ronaldo ⚽🔥\nWho deserves to win?\n\n👉 https://goat-fight.vercel.app/");
+      const xUrl = `https://twitter.com/intent/tweet?text=${tweet}`;
+      window.open(xUrl, "_blank");
     }
 
     function startCountdown(endDate) {
