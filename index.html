@@ -130,25 +130,32 @@
       }
     }
 
-    function vote(player) {
-      const amount = prompt("How much EGLD do you want to send?");
-      if (!amount) return;
+    <script>
+  function vote(player) {
+    const amount = prompt("How much EGLD do you want to send?");
+    if (!amount || isNaN(amount)) return;
 
-      const memo = player;
-      const address = "erd1n0kqf488m6skjazhsmfnpakhvxgtav0jjgmck4j3a2qf7mhsf45q9gz55c";
-      const value = parseFloat(amount) * 1e18;
-      const url = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${memo}`;
+    const address = "erd1n0kqf488m6skjazhsmfnpakhvxgtav0jjgmck4j3a2qf7mhsf45q9gz55c";
+    const value = parseFloat(amount) * 1e18; // EGLD to wei
+    const data = player;
 
-      window.open(url, "_blank");
+    const link = `https://xportal.com/dapp/transaction?receiver=${address}&value=${value}&data=${data}`;
+    
+    // Deschide xPortal în mobil
+    window.open(link, "_blank");
 
-      setTimeout(() => {
-        confetti({
-          particleCount: 200,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-      }, 500);
-    }
+    // Confetti + mesaj
+    setTimeout(() => {
+      confetti({
+        particleCount: 200,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+      alert(`✅ Thanks for voting ${player.toUpperCase()}!`);
+    }, 600);
+  }
+</script>
+
 
     function startCountdown(endDate) {
       const countdownEl = document.getElementById("countdown");
