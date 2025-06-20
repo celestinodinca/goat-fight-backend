@@ -8,146 +8,96 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     body {
-      font-family: 'Press Start 2P', monospace;
       margin: 0;
-      background-color: #0f0f0f;
+      font-family: 'Press Start 2P', monospace;
+      background: #0f0f0f;
       color: #39ff14;
       text-align: center;
-      background-image: linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%);
-      image-rendering: pixelated;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-top: 2rem;
-      color: #ffd700;
-      text-shadow: 2px 2px #000;
-    }
-
-    .countdown {
-      font-size: 1rem;
-      margin: 1rem 0;
-      color: #ff00ff;
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      padding: 2rem;
+    .stadium-section {
+      background: url('https://mir-s3-cdn-cf.behance.net/project_modules/hd/91b77255862449.599609ab2e17b.gif') no-repeat center/cover;
+      padding: 60px 0 100px;
       position: relative;
-      z-index: 2;
     }
 
-    .player-card {
-      background: #1e1e1e;
-      border: 3px dashed #00ffe0;
-      border-radius: 8px;
-      padding: 1rem;
-      width: 280px;
-      box-shadow: 0 0 12px #00ffe0;
-      margin: 1rem;
+    .scoreboard {
+      background: rgba(0, 0, 0, 0.7);
+      display: inline-block;
+      padding: 10px 20px;
+      border: 3px solid #ffd700;
+      color: #ffd700;
+      font-size: 16px;
+      margin-bottom: 30px;
     }
 
-    .player-card img {
-      width: 100%;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,255,255,0.4);
+    .players {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin-top: 30px;
+    }
+
+    .players img {
+      width: 100px;
       image-rendering: pixelated;
     }
 
-    .score {
-      font-size: 1rem;
-      margin: 1rem 0;
-      color: #39ff14;
-    }
-
-    .vote-btn {
-      background-color: #00ffe0;
-      color: black;
-      border: none;
-      padding: 10px 16px;
-      font-size: 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 0 5px #00ffe0;
-    }
-
-    .vote-btn:hover {
-      background-color: #00e6cc;
-    }
-
-    .leaderboard {
-      margin-top: 2rem;
-      background: #1a0033;
+    .leaderboard, .hall-of-goats {
+      margin-top: 40px;
+      padding: 20px;
       border: 2px solid #00ffe0;
-      border-radius: 6px;
-      padding: 1rem;
-      width: 85%;
+      background: #1a0033;
+      width: 90%;
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .leaderboard h2, .hall-of-goats h2 {
       color: #ffd700;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      text-align: left;
-    }
-
-    /* Stadium in background */
-    .stadium-bg {
-      position: absolute;
-      top: 120px;
-      left: 0;
-      width: 100%;
-      z-index: 0;
-      opacity: 0.08;
-      pointer-events: none;
     }
 
     .stadium {
       display: grid;
-      grid-template-columns: repeat(15, 20px);
-      gap: 4px;
+      grid-template-columns: repeat(10, 40px);
+      gap: 6px;
       justify-content: center;
+      padding: 20px;
     }
 
     .seat {
-      width: 20px;
-      height: 20px;
-      background: #00ffe0;
-      border: 1px solid #111;
-      font-size: 8px;
+      width: 40px;
+      height: 40px;
+      background: #222;
+      border: 2px solid #00ffe0;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 10px;
+      color: #00ffe0;
     }
 
     .seat.taken {
       background: #ff00ff;
       color: white;
     }
+
+    .seat:hover {
+      background: #00ffe0;
+      color: black;
+    }
   </style>
 </head>
 <body>
-  <h1>🐐 GOAT FIGHT - MESSI VS RONALDO</h1>
-  <div class="countdown" id="countdown"></div>
-
-  <div class="stadium-bg">
-    <div class="stadium" id="stadium"></div>
-  </div>
-
-  <div class="container">
-    <div class="player-card">
-      <img src="https://i.ibb.co/ccLhgXjy/messi-pixel.png" alt="Pixel Messi">
-      <div class="score" id="messi-score">0 EGLD</div>
-      <button class="vote-btn" onclick="vote('messi')">Vote for Messi</button>
+  <div class="stadium-section">
+    <div class="scoreboard" id="scoreboard">
+      MESSI: 0 EGLD ⚔️ RONALDO: 0 EGLD
     </div>
-
-    <div class="player-card">
+    <div class="players">
+      <img src="https://i.ibb.co/ccLhgXjy/messi-pixel.png" alt="Pixel Messi">
       <img src="https://i.ibb.co/Q7vJdjb5/messi.png" alt="Pixel Ronaldo">
-      <div class="score" id="ronaldo-score">0 EGLD</div>
-      <button class="vote-btn" onclick="vote('ronaldo')">Vote for Ronaldo</button>
     </div>
   </div>
 
@@ -156,70 +106,25 @@
     <pre id="leaderboard">Loading...</pre>
   </div>
 
+  <div class="hall-of-goats">
+    <h2>🐐 HALL OF GOATS</h2>
+    <ol id="goatList">
+      <li>erd1...j2k - 2.3 EGLD - "MESSI 4EVER"</li>
+      <li>erd1...94d - 1.8 EGLD - "RONALDO RULES"</li>
+      <li>erd1...x5g - 1.5 EGLD - "Vote and Win!"</li>
+    </ol>
+  </div>
+
+  <div class="stadium" id="stadium"></div>
+
   <script>
-    const API_URL = "https://orange-halibut-7vwx9qvqqxpc6r4-3000.app.github.dev/api/scores";
-
-    async function updateScores() {
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
-        document.getElementById("messi-score").innerText = data.messi + " EGLD";
-        document.getElementById("ronaldo-score").innerText = data.ronaldo + " EGLD";
-        document.getElementById("leaderboard").innerText = data.leaderboard || "No votes yet.";
-      } catch (e) {
-        console.error("Score update error", e);
-      }
-    }
-
-    function vote(player) {
-      const amount = prompt("How much EGLD do you want to send?");
-      if (!amount || isNaN(amount)) return;
-
-      const address = "erd1n0kqf488m6skjazhsmfnpakhvxgtav0jjgmck4j3a2qf7mhsf45q9gz55c";
-      const value = parseFloat(amount) * 1e18;
-      const data = player;
-
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const walletLink = `https://wallet.multiversx.com/dapp/send?receiver=${address}&value=${value}&data=${data}`;
-      const xportalLink = `xportal://transaction?receiver=${address}&value=${value}&data=${data}`;
-      const link = isMobile ? xportalLink : walletLink;
-
-      window.open(link, "_blank");
-
-      setTimeout(() => {
-        confetti({
-          particleCount: 200,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-        alert(`✅ Thanks for voting ${player.toUpperCase()}!`);
-      }, 600);
-    }
-
-    function startCountdown(endDate) {
-      const countdownEl = document.getElementById("countdown");
-      function update() {
-        const now = new Date().getTime();
-        const distance = endDate - now;
-        if (distance <= 0) {
-          countdownEl.innerText = "⏱️ Voting Closed";
-          clearInterval(interval);
-          return;
-        }
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownEl.innerText = `⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }
-      update();
-      const interval = setInterval(update, 1000);
-    }
-
     const stadium = document.getElementById("stadium");
-    const seats = Array.from({ length: 200 }, (_, i) => ({
+
+    const seats = Array.from({ length: 100 }, (_, i) => ({
       id: i,
-      taken: Math.random() < 0.15
+      taken: false,
+      message: '',
+      image: ''
     }));
 
     function renderSeats() {
@@ -227,15 +132,26 @@
       seats.forEach(seat => {
         const div = document.createElement("div");
         div.className = "seat" + (seat.taken ? " taken" : "");
-        div.innerText = seat.taken ? "🎟️" : "";
+        div.innerText = seat.taken ? "🚀" : seat.id;
+        div.onclick = () => buySeat(seat);
         stadium.appendChild(div);
       });
     }
 
+    function buySeat(seat) {
+      if (seat.taken) {
+        alert(`Seat ${seat.id} is already taken.\nMessage: ${seat.message}`);
+        return;
+      }
+      const message = prompt("Enter your message (e.g. brand, shoutout)");
+      if (!message) return;
+      seat.message = message;
+      seat.taken = true;
+      alert(`💼 Seat #${seat.id} reserved!`);
+      renderSeats();
+    }
+
     renderSeats();
-    updateScores();
-    setInterval(updateScores, 10000);
-    startCountdown(new Date("2025-09-01T00:00:00Z").getTime());
   </script>
 </body>
 </html>
