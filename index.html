@@ -17,25 +17,61 @@
 
     .stadium-section {
       background: url('https://mir-s3-cdn-cf.behance.net/project_modules/hd/91b77255862449.599609ab2e17b.gif') no-repeat center/cover;
-      padding: 60px 0 100px;
+      padding: 20px 0 60px;
       position: relative;
     }
 
     .scoreboard {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       display: inline-block;
       padding: 10px 20px;
       border: 3px solid #ffd700;
       color: #ffd700;
       font-size: 16px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .stadium {
+      display: grid;
+      grid-template-columns: repeat(15, 32px);
+      gap: 4px;
+      justify-content: center;
+      padding: 10px;
+      margin-bottom: 40px;
+    }
+
+    .seat {
+      width: 32px;
+      height: 32px;
+      background: #222;
+      border: 2px solid #00ffe0;
+      cursor: pointer;
+      font-size: 8px;
+      color: #00ffe0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .seat.taken {
+      background: #ff00ff;
+      color: white;
+    }
+
+    .seat:hover {
+      background: #00ffe0;
+      color: black;
     }
 
     .players {
       display: flex;
       justify-content: center;
       gap: 80px;
-      margin-top: 30px;
+      position: relative;
+      margin-top: -20px;
+      z-index: 3;
     }
 
     .players img {
@@ -57,37 +93,6 @@
     .leaderboard h2, .hall-of-goats h2 {
       color: #ffd700;
     }
-
-    .stadium {
-      display: grid;
-      grid-template-columns: repeat(10, 40px);
-      gap: 6px;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .seat {
-      width: 40px;
-      height: 40px;
-      background: #222;
-      border: 2px solid #00ffe0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: #00ffe0;
-    }
-
-    .seat.taken {
-      background: #ff00ff;
-      color: white;
-    }
-
-    .seat:hover {
-      background: #00ffe0;
-      color: black;
-    }
   </style>
 </head>
 <body>
@@ -95,6 +100,9 @@
     <div class="scoreboard" id="scoreboard">
       MESSI: 0 EGLD ⚔️ RONALDO: 0 EGLD
     </div>
+
+    <div class="stadium" id="stadium"></div>
+
     <div class="players">
       <img src="https://i.ibb.co/ccLhgXjy/messi-pixel.png" alt="Pixel Messi">
       <img src="https://i.ibb.co/Q7vJdjb5/messi.png" alt="Pixel Ronaldo">
@@ -115,12 +123,10 @@
     </ol>
   </div>
 
-  <div class="stadium" id="stadium"></div>
-
   <script>
     const stadium = document.getElementById("stadium");
 
-    const seats = Array.from({ length: 100 }, (_, i) => ({
+    const seats = Array.from({ length: 120 }, (_, i) => ({
       id: i,
       taken: false,
       message: '',
